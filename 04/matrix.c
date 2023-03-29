@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void add_matrix(int X[2][2], int A[2][2], int B[2][2]){
+void add_matrix(int X[2][2], const int A[2][2], const int B[2][2]){
     for (int i = 0; i < 2; i++){
         for (int j = 0; j < 2; j++)
         X[i][j] = A[i][j] + B[i][j];
