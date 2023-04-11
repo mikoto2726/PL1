@@ -1,4 +1,6 @@
+/*
 #include <stdio.h>
+
 int main(){
     int x, y, z, result;
     result = 0; // 任意の値を初期設定しないといけない
@@ -80,6 +82,27 @@ int main(){
             result = y;
         }
         
+    }
+    printf("Maximum value is %d\n", result);
+    return 0;
+}
+*/
+
+#include <stdio.h>
+int main() {
+    int x, y, z, result;
+    printf("X = ");
+    scanf("%d", &x);
+    printf("Y = ");
+    scanf("%d", &y);
+    printf("Z = ");
+    scanf("%d", &z);
+    result = x;
+    if (y > result) {
+        result = y;
+    }
+    if (z > result) {
+        result = z;
     }
     printf("Maximum value is %d\n", result);
     return 0;
