@@ -6,7 +6,7 @@ void pyramid(int size) {
     for (j = i; j < size; j++) {
       printf(" ");
     }
-    for (k = 1; k <= (2 * i - 1); k++) {
+    for (k = 1; k <= (2 * i); k++) {
       printf("#");
     }
     printf("\n");

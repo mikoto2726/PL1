@@ -10,7 +10,7 @@ typedef struct {
 
 typedef struct {
     int    n; // 要素数 (The number of elements)
-    Tweet* tweets[100];
+    Tweet  tweets[100];
 } Diary;
 
 
@@ -21,40 +21,38 @@ Diary* create_diary()
     return d;
 }
 
-void remove_tweet(Diary* d, int index)
+Tweet* get_tweet(Diary* d, int index)
 {
-    free(d->tweets[index]); // 不要な記事の中身を削除 (Free post content)
+    return &(d->tweets[index]);
+}
+
+void remove_tweet(Diary* d, Tweet* t)
+{
+    int remove_index = t - d->tweets;
+    
     d->n--; // 要素数を1減らす (Decrement number of elements by one)
     
-    for (int i = index; i < d->n; i++) {
+    for (int i = remove_index; i < d->n; i++) {
         d->tweets[i] = d->tweets[i+1];
     }
 }
 
-
 void add_tweet(Diary* d, const char* msg)
 {
-    if (d->n >= 100) {
-        printf("Diary is full. Cannot add more tweets.\n");
-        return;
-    }
-
-    Tweet* new_tweet = (Tweet*)malloc(sizeof(Tweet));
-    new_tweet->ts = time(NULL);
-    strcpy(new_tweet->msg, msg);
-
-    d->tweets[d->n] = new_tweet;
-    d->n++;
+    d->tweets[d->n].ts = time(NULL);
+    strcpy(d->tweets[d->n].msg, msg);
+    
+    d->n++; // 要素数を1増やす (Increment number of elements by one)
 }
-
 
 void print_tweets(const Diary* d)
 {
-    for (int i = 0; i < d->n; i++) {
+    for (int i = d->n - 1; i >= 0; i--) {
         char s[100];
-        printf("%d: %s\t%s\n\n", i, ctime_r(&(d->tweets[i]->ts), s), d->tweets[i]->msg);
+        printf("%d: %s\t%s\n\n", i, ctime_r(&(d->tweets[i].ts), s), d->tweets[i].msg);
     }
 }
+
 
 
 int main()
@@ -65,7 +63,8 @@ int main()
     add_tweet(diary, "My second tweet!");
     add_tweet(diary, "My third tweet!");
 
-    remove_tweet(diary, 1);
+    Tweet* tw = get_tweet(diary, 1);
+    remove_tweet(diary, tw);
 
     add_tweet(diary, "My last tweet!");
 

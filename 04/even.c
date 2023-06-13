@@ -3,7 +3,7 @@
 
 int find_even(int *a, int len) {
     for (int i = 0; i < len; i++) {
-        if (*(a + i) % 2 == 0) {
+        if (a[i] % 2 == 0) {
             return 1; // 偶数があった場合は1を返す
         }
     }

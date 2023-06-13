@@ -2,13 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "diary.h"
 
-typedef struct {
-    time_t ts; // 投稿時刻 (Posted time)
-    char   msg[280+1]; // メッセージ (Message)
-} Tweet;
-
-typedef struct {
+typedef struct diary {
     int    n; // 要素数 (The number of elements)
     Tweet  tweets[100];
 } Diary;
@@ -53,9 +49,10 @@ void print_tweets(const Diary* d)
     }
 }
 
+
 int save_diary(const Diary* d)
 {
-    FILE* fp = fopen("diary.bin", "wb");
+    FILE* fp = fopen("diary.bin", "w");
     if (!fp) goto error; // ファイルのオープンに失敗 (Failed to open file)
 
     size_t n = fwrite(d->tweets, sizeof(Tweet), d->n, fp);
@@ -83,26 +80,4 @@ Diary* load_diary()
  error:
     if (fp) fclose(fp);
     return NULL;
-}
-
-
-int main()
-{
-    const char *messages[] = {
-        "Hello, INIAD!",
-        "How are you?",
-        "Enryo sensei is cool!",
-    };
-    
-    Diary* diary = load_diary();
-    if (!diary) {
-        diary = create_diary();
-    }
-
-    add_tweet(diary, messages[time(NULL) % 3]);
-    print_tweets(diary);
-
-    save_diary(diary);
-
-    return 0;
 }
